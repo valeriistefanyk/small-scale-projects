@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'generator_password',
     'core',
     'main_app',
-    
+    'todo',
+    'text_manipulation',
 ]
 
 MIDDLEWARE = [

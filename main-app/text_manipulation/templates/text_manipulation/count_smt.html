@@ -1,0 +1,53 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="pt-4 mt-4">
+    <h2 class="text-center">Посчитать количество букв или слов в тексте</h2>
+</div>
+<div class="pt-4 mt-4">
+    <form method="POST" action="{% url 'text-manipulation:count-smt'%}">
+        {% csrf_token %}
+        <div class="form-group form-inline">
+            <label for="whatCount">Посчитать количество</label>
+            <select class="form-control mx-sm-3" id="whatCount" name="what_count">
+                <option value="letter" {% if what_count == 'letter'%}selected{% endif %}>букв в тексте</option>
+                <option value="word" {% if what_count == 'word'%}selected{% endif %}>слов в тексте</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="text">Текст</label>
+            <textarea class="form-control" id="text" name="text" rows="3" >{{text}}</textarea>
+        </div>
+        <input type="submit" name="count" class="btn btn-primary mb-2" value="Посчитать">
+    </form>
+</div>
+{% if response %}
+<div class="mt-4">
+    <div class="text-center alert alert-success">
+        <h2>{{ response }}</h2>
+    </div>
+</div>
+
+
+
+{% endif %}
+
+<div class="link">
+    <a href="{% url 'index-page' %}" class="btn btn-primary">Головна</a>
+</div>
+{% endblock content %}
+
+{% block script_add %}
+<script>
+</script>
+{% endblock script_add %}
+
+{% block style_add %}
+<style>
+    .link {
+        position: fixed;
+        top: 30px;
+        left: 120px;
+        line-height: 1px;
+    }
+</style>
+{% endblock style_add %}

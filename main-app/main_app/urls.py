@@ -20,5 +20,6 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('password/', include('generator_password.urls')),
+    path('text/', include('text_manipulation.urls')),
     path('', views.index_page, name='index-page'),
 ]
