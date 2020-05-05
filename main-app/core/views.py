@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.db import IntegrityError
+from django.contrib.auth import login, logout, authenticate
 
 
 def index_page(request):
@@ -18,8 +20,41 @@ def signupuser(request):
         return render(request, 'core/signupuser.html', context)
     else:
         if request.POST['password1'] == request.POST['password2']:
-            user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
-            return render(request, 'core/signupuser.html', context)
+            try:
+                user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                login(request, user)
+                return redirect('index-page')
+            except IntegrityError:
+                context['error'] = f'Пользователь с юзернеймом {request.POST["username"]} уже существует. Пожалуйста, выберите другое имя!'
+                context['form'] = UserCreationForm()
         else:
-            # tell the user the passwords didn't match
-            pass
+            context['error'] = 'Пароли не совпадают!'
+            context['form'] = UserCreationForm()
+
+    return render(request, 'core/signupuser.html', context)
+
+
+def logoutuser(request):
+    """ Выйти из аккаунта """
+
+    if request.method == 'POST':
+        logout(request)
+        return redirect('index-page')
+
+
+def loginuser(request):
+    """ Логин """
+
+    context = {}
+    context['form'] = AuthenticationForm()
+
+    if request.method == 'POST':
+        
+        user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
+        if user is None:
+            context['error'] = 'Логин или пароль не подходят!'
+        else:
+            login(request, user)
+            return redirect('index-page')
+
+    return render(request, 'core/loginuser.html', context)

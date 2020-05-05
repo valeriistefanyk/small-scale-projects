@@ -3,10 +3,13 @@
 {% block content %}
 <div>
     <div class="text text-center alert">
-        <h2>Галвная страница</h2>
+        <h2>Главная страница</h2>
     </div>
     <div class="link alert">
         <a href="{% url 'password-app:password' %}">Генератор пароля</a>
+    </div>
+    <div class="link alert">
+        <a href="{% url 'todo:currenttodos' %}">ToDo приложение</a>
     </div>
     <div class="link alert">
         <a href="{% url 'text-manipulation:count-smt' %}">Работа с текстом</a>

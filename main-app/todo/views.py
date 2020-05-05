@@ -1,3 +1,8 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def currenttodos(request):
+    """ Текущие задания """
+
+    context = {}
+    return render(request, 'todo/currenttodos.html', context)

@@ -5,13 +5,14 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-
     path('password/', include('generator_password.urls')),
     path('text/', include('text_manipulation.urls')),
     path('todo/', include('todo.urls')),
     
     # Auth
     path('signup/', views.signupuser, name='signupuser'),
+    path('logout/', views.logoutuser, name='logoutuser'),
+    path('login/', views.loginuser, name='loginuser'),
 
     # Index page
     path('', views.index_page, name='index-page'),

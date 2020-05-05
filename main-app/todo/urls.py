@@ -3,4 +3,6 @@ from todo import views
 
 
 app_name = 'todo'
-urlpatterns = []
+urlpatterns = [
+    path('', views.currenttodos, name='currenttodos'),
+]
