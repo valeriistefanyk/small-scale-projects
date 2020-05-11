@@ -1,0 +1,15 @@
+{% extends 'todo/_base_todo.html' %}
+
+{% block content_page %}
+<h2>Создание нового задания</h2>
+{% if error %}
+    <p style="color: red;">{{ error }}</p>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать задание</button>
+</form>
+
+
+{% endblock %}

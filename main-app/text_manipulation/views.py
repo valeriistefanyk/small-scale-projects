@@ -16,9 +16,10 @@ def count_smt_in_text(request):
         text = request.POST.get('text')
         what_count_choice = request.POST.get('what_count')
 
-        element, length = what_count[what_count_choice](text)
+        count_smt_dict = what_count[what_count_choice](text)
 
-        response = f"Количество {element} в тексте - {length}"
+        response = f"Количество {count_smt_dict['value']} в тексте - {count_smt_dict['count']}"
+        response += f". Из них количество уникальных - {count_smt_dict['uniqwcount']}" if count_smt_dict['uniqwcount'] else ''
     
     context = {
         'text': text,
@@ -32,14 +33,28 @@ def count_smt_in_text(request):
 
 # helper methods
 def word_count (text:str):
+    
+    wcount_dict = {
+        'value': 'слов',
+        'count': 0,
+        'uniqwcount': 0,
+    }
     if text:
         text = text.replace("\n", " ")
         text = text.replace(",", "").replace(".", "").replace("?", "").replace("!", "")
         text = text.lower()
-        wcount = len(text.split(' '))
-    else: 
-        wcount = 0
-    return 'слов', wcount
+
+        text_arr = text.split(' ')
+        wcount_dict['count'] = len(text_arr)
+        print(list({i for i in text.split(' ')}))
+        wcount_dict['uniqwcount'] = len(list({i for i in text_arr}))
+
+    return wcount_dict
 
 def letter_count (text:str):
-    return 'букв', len(text)
+    lcount_dict = {
+        'value': 'букв',
+        'count': len(text),
+        'uniqwcount': None,
+    }
+    return lcount_dict

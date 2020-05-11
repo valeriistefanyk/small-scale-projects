@@ -1,0 +1,9 @@
+{% extends 'todo/_base_todo.html' %}
+
+{% block content_page %}
+    <div>
+        <a href="{% url 'todo:create-todo'%}">Создать новое задание</a>
+    </div>
+    current todo
+
+{% endblock %}
