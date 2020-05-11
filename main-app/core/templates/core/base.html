@@ -5,31 +5,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/brands.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/solid.min.css">
     {% block link_add %}{% endblock link_add %}
     <title>{% block title %}Django small apps{% endblock %}</title>
 </head>
 <body>
-    </div>
-        {% if user.is_authenticated %}
+    <nav class="navbar navbar-light navbar-expand-md bg-light justify-content-md-center justify-content-start">
+        <button class="navbar-toggler ml-1 mr-4" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand d-inline" href="{% url 'index-page' %}">SCRAP-HEAP</a>
         
-            <form action="{% url 'logoutuser' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Выйти</button>
-            </form>
-            <p>hello {{user}}</p>
-        {% else %}
-            <a href="{% url 'signupuser' %}">Зарегистрироваться</a>
-            <a href="{% url 'loginuser' %}">Ввойти в аккаунт</a>
-        {% endif %}
-    <div>
+        
+        <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
+            <ul class="navbar-nav mx-auto text-md-center">
+                {% block nav_list_link %}
+                    <li class="nav-item">
+                        <a class="nav-link ml-2 mr-2" href="{% url 'password-app:password' %}">Генератор пароля</a> 
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ml-2 mr-2" href="{% url 'todo:current-todos' %}">Todo приложение</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link ml-2 mr-2" href="{% url 'text-manipulation:count-smt' %}">Работа с текстом</a> 
+                    </li>
+                {% endblock nav_list_link %}
+            </ul>
+            <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
+                {% if user.is_authenticated %}
+                <li class="nav-item nav-link">Привіт, {{user}}!</li>
+                <li class="nav-item ">
+                    <form action="{% url 'logoutuser' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn nav-link" title="Выйти с аккаунта"><i class="fas fa-sign-out-alt"></i></button>
+                    </form>
+                </li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link" href="{% url 'signupuser' %}"><i class="fas fa-user-plus"></i> Регистрация</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'loginuser' %}"><i class="fas fa-sign-in-alt"></i> Ввойти</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        
+    
+    </nav>
+    
+
     <div class="container">
         {% block content %}
         {% endblock content %}
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-</body>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/js/bootstrap.min.js"></script>
+    {% block script_add %}{% endblock script_add %}
+    {% block style_add %}{% endblock style_add %}
 
-{% block script_add %}{% endblock script_add %}
-{% block style_add %}{% endblock style_add %}
+</body>
 </html>

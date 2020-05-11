@@ -1,7 +1,9 @@
 {% extends 'todo/_base_todo.html' %}
 
 {% block content_page %}
-<h2>Создание нового задания</h2>
+<div>
+    <h2 class="text-center alert">Создание нового задания</h2>
+</div>
 {% if error %}
     <p style="color: red;">{{ error }}</p>
 {% endif %}

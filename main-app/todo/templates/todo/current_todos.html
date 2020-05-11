@@ -1,9 +1,31 @@
 {% extends 'todo/_base_todo.html' %}
 
 {% block content_page %}
-    <div>
-        <a href="{% url 'todo:create-todo'%}">Создать новое задание</a>
-    </div>
-    current todo
+
+<div>
+    <h2 class="text-center alert">Текущие задачи</h2>
+</div>
+
+<div>
+    <ul>
+    {% for todo in todos %}
+        <li>
+            {% if todo.important %}
+                <span style="color: red; font-weight: bold;"><i class="fa fa-exclamation"></i>
+            {% else %}
+                <span>
+            {% endif %}
+                <a href="{% url 'todo:view-todo' todo.id %}">{{todo.title}}</a></span>
+                {% if todo.memo %}
+                 - {{ todo.memo|truncatechars:20 }}
+                {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'todo:create-todo'%}">Создать новое задание</a>
+</div>
 
 {% endblock %}

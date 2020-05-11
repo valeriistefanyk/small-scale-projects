@@ -1,8 +1,21 @@
 {% extends 'core/base.html' %}
 
+{% block nav_list_link %}
+    <li class="nav-item">
+        <a class="nav-link ml-2 mr-2" href="{% url 'todo:current-todos' %}">Все задачи</a> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link ml-2 mr-2" href="{% url 'todo:current-todos' %}">Текущие задания</a> 
+    </li>
+    <li class="nav-item">
+        <a class="nav-link ml-2 mr-2" href="{% url 'todo:create-todo' %}">Создать задание</a>
+    </li>
+    
+{% endblock nav_list_link %}
 {% block content %}
 
     {% block content_page %}
+    
     {% endblock %}
 
 {% endblock content %}

@@ -1,7 +1,10 @@
 {% extends 'core/base.html' %}
+{% block nav_list_link %}
+    <!-- <h4 class="">Посчитать количество букв или слов в тексте</h4> -->
+{% endblock nav_list_link %}
 {% block content %}
-<div class="pt-4 mt-4">
-    <h2 class="text-center">Посчитать количество букв или слов в тексте</h2>
+<div>
+    <h2 class="text-center alert">Посчитать количество букв или слов в тексте</h2>
 </div>
 <div class="pt-4 mt-4">
     <form method="POST" action="{% url 'text-manipulation:count-smt'%}">
@@ -27,13 +30,8 @@
     </div>
 </div>
 
-
-
 {% endif %}
 
-<div class="link">
-    <a href="{% url 'index-page' %}" class="btn btn-primary">Головна</a>
-</div>
 {% endblock content %}
 
 {% block script_add %}
@@ -43,11 +41,5 @@
 
 {% block style_add %}
 <style>
-    .link {
-        position: fixed;
-        top: 30px;
-        left: 120px;
-        line-height: 1px;
-    }
 </style>
 {% endblock style_add %}

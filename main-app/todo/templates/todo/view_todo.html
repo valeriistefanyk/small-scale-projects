@@ -1,0 +1,16 @@
+{% extends 'todo/_base_todo.html' %}
+
+{% block content_page %}
+    <h2>Нужно сделать</h2>
+    <div>
+        <a href="{% url 'todo:current-todos'%}">Текущие задания</a>
+    </div>
+
+    <div>
+        <p>{{todo.title}}</p>
+        <p>{{todo.memo}}</p>
+        <p>{{todo.created}}</p>
+        <p>{{todo.important}}</p>
+    </div>
+
+{% endblock %}
