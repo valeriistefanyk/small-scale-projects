@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 
 def index_page(request):
@@ -34,6 +35,7 @@ def signupuser(request):
     return render(request, 'core/signupuser.html', context)
 
 
+@login_required
 def logoutuser(request):
     """ Выйти из аккаунта """
 
@@ -48,6 +50,9 @@ def loginuser(request):
     context = {}
     context['form'] = AuthenticationForm()
 
+    if request.GET:  
+        next = request.GET['next']
+
     if request.method == 'POST':
         
         user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
@@ -55,6 +60,8 @@ def loginuser(request):
             context['error'] = 'Логин или пароль не подходят!'
         else:
             login(request, user)
+            if next:
+                return redirect(next)
             return redirect('index-page')
 
     return render(request, 'core/loginuser.html', context)

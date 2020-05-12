@@ -35,7 +35,7 @@
             </ul>
             <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
                 {% if user.is_authenticated %}
-                <li class="nav-item nav-link">Привіт, {{user}}!</li>
+                <li class="nav-item nav-link">Привет, {{user}}!</li>
                 <li class="nav-item ">
                     <form action="{% url 'logoutuser' %}" method="post">
                         {% csrf_token %}

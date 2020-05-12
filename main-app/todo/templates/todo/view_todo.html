@@ -1,16 +1,82 @@
 {% extends 'todo/_base_todo.html' %}
 
 {% block content_page %}
-    <h2>Нужно сделать</h2>
     <div>
-        <a href="{% url 'todo:current-todos'%}">Текущие задания</a>
+        <h2 class="text-center alert">Задание</h2>
+    </div>    
+
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-5">
+            {% if error %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Название<sup style="color: red;" title="Обязательно для заполнения">*</sup></label>
+                    <input type="text" name="title" class="form-control" id="title" value="{{ todo.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="memo">Описание</label>
+                    <textarea name="memo" rows="5" class="form-control" id="memo" >{{ todo.memo }}</textarea>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" name="important" class="form-check-input" id="important" {% if todo.important %}checked{% endif %}>
+                    <label class="form-check-label" for="important">Важно?</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Изменить</button>
+                <button type="button" class="btn btn-success" onclick="$('#complete').click()">Сделано!</button>
+                <button type="button" class="btn btn-danger" onclick="$('#delete').click()">Удалить</button>
+            </form>
+        </div>
+    </div>
+    {% if todo.datecompleted is None %}
+        <form style='display: none;' method="POST" action="{% url 'todo:complete-todo' todo.id %}">
+            {% csrf_token %}
+            <button id="complete" type="submit">Сделано!</button>
+        </form>
+    {% else %}
+        <button style='display: none;' id="complete" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Сделано!
+        </button>
+    {% endif %}
+    <form style='display: none;' method="POST" action="{% url 'todo:delete-todo' todo.id %}">
+        {% csrf_token %}
+        <button id="delete" type="submit">Удалить</button>
+    </form>
+
+
+
+    <div class="mt-4 pt-4 mb-4 text-center">
+        <a href="{% url 'todo:current-todos'%}" class="pl-2 pr-2">Текущие задания</a> |
+        <a href="{% url 'todo:completed-todos'%}" class="pl-2 pr-2">Выполненые задания</a>
     </div>
 
-    <div>
-        <p>{{todo.title}}</p>
-        <p>{{todo.memo}}</p>
-        <p>{{todo.created}}</p>
-        <p>{{todo.important}}</p>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Информация</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Это задание уже находится в выполненных!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+        </div>
+      </div>
     </div>
-
+  </div>
+      
 {% endblock %}
+
+
+{% block script_add %}
+  {% endblock script_add %}
